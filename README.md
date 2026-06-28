@@ -166,7 +166,44 @@ Price is calculated based on:
 * Average Revenue
 
 ---
+## REST API Endpoints
 
+### Authentication
+```http
+POST /api/v1/auth/signup
+POST /api/v1/auth/login
+```
+
+### Hotel Management
+```http
+POST   /api/v1/admin/hotels
+GET    /api/v1/admin/hotels
+GET    /api/v1/admin/hotels/{hotelId}
+PUT    /api/v1/admin/hotels/{hotelId}
+DELETE /api/v1/admin/hotels/{hotelId}
+PATCH  /api/v1/admin/hotels/{hotelId}/activate
+```
+
+### Room Management
+```http
+POST   /api/v1/admin/hotels/{hotelId}/rooms
+GET    /api/v1/admin/inventory/rooms/{roomId}
+PATCH  /api/v1/admin/inventory/rooms/{roomId}
+```
+
+### Booking Management
+```http
+POST /api/v1/bookings/init
+POST /api/v1/bookings/{bookingId}/addGuests
+POST /api/v1/bookings/{bookingId}/payments
+POST /api/v1/bookings/{bookingId}/cancel
+GET  /api/v1/bookings/{bookingId}/status
+```
+
+### Reports
+```http
+GET /api/v1/admin/hotels/{hotelId}/reports
+```
 ## API Documentation
 
 Swagger UI available at:
