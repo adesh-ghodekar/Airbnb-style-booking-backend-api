@@ -1,67 +1,234 @@
-# Airbnb Backend API
+# Airbnb Style Booking Backend API
 
-This application provides backend APIs for a hotel management system, including inventory management, booking flow, user authentication, and hotel browsing.
+A production-style backend system for a hotel booking platform inspired by Airbnb, built using Spring Boot and PostgreSQL.
 
-![Image](https://github.com/user-attachments/assets/585136d9-05b5-4832-ad37-0a47d4678433)
+<img width="1918" height="903" alt="Screenshot 2026-06-28 155415" src="https://github.com/user-attachments/assets/38dd6ed2-48eb-451d-a408-85c3fbd64cdd" />
+
 
 ## Features
 
-### Admin Inventory
-- **GET** `/admin/inventory/rooms/{roomId}` - Retrieve inventory of a room
-- **PATCH** `/admin/inventory/rooms/{roomId}` - Update inventory for a room
-- **PUT** `/admin/hotels/{hotelId}/rooms/{roomId}` - Update a room
+* JWT Authentication & Authorization
+* Role-based Access Control (Admin / User)
+* Hotel Management
+* Room Management
+* Inventory Management
+* Dynamic Pricing Engine
+* Booking Flow Management
+* Guest Management
+* Payment Integration Structure
+* Hotel Booking Reports
+* Swagger API Documentation
 
-### Booking Flow
-- **GET** `/bookings/{bookingId}/status` - Check booking status
-- **GET** `/admin/hotels/{hotelId}/reports` - Generate hotel booking report
-- **GET** `/admin/hotels/{hotelId}/bookings` - Get all bookings
-- **POST** `/bookings/{bookingId}/payments` - Initiate payment
-- **POST** `/bookings/{bookingId}/cancel` - Cancel a booking
-- **POST** `/bookings/{bookingId}/addGuests` - Add guests to a booking
-- **POST** `/bookings/init` - Initialize a new booking
+---
 
-### Booking Guests
-- **DELETE** `/users/guests/{guestId}` - Remove a guest
-- **GET** `/users/guests` - Get my guests
-- **POST** `/users/guests` - Add a guest
-- **PUT** `/users/guests/{guestId}` - Update a guest
+## Tech Stack
 
-### Hotel Browse
-- **GET** `/hotels/{hotelId}/info` - Get hotel details
-- **GET** `/hotels/search` - Search for hotels
+* Java 23
+* Spring Boot
+* Spring Security + JWT
+* Hibernate / JPA
+* PostgreSQL
+* Maven
+* Swagger OpenAPI
+* Docker
+
+---
+
+## Project Architecture
+
+```text
+                        +----------------------+
+                        |      Client / UI     |
+                        | (Postman / Swagger)  |
+                        +----------+-----------+
+                                   |
+                                   v
+                     +-----------------------------+
+                     |        REST Controllers      |
+                     | Auth | Hotel | Booking etc. |
+                     +-------------+---------------+
+                                   |
+                                   v
+                     +-----------------------------+
+                     |          Services            |
+                     | Business Logic Layer         |
+                     +-------------+---------------+
+                                   |
+                    +--------------+---------------+
+                    |                              |
+                    v                              v
+          +-------------------+         +-------------------+
+          |  Pricing Engine   |         | Payment Service   |
+          | Dynamic Pricing   |         | Stripe/Razorpay   |
+          +-------------------+         +-------------------+
+                    |                              |
+                    +--------------+---------------+
+                                   |
+                                   v
+                     +-----------------------------+
+                     |        Repositories          |
+                     | Spring Data JPA Layer        |
+                     +-------------+---------------+
+                                   |
+                                   v
+                     +-----------------------------+
+                     |        PostgreSQL DB         |
+                     +-----------------------------+
+```
+
+
+---
+
+## Database Entities
+
+* User
+* Hotel
+* Room
+* Inventory
+* Booking
+* Guest
+
+### Relationships
+
+* User → Hotels
+* Hotel → Rooms
+* Room → Inventory
+* User → Bookings
+* Booking → Guests
+
+<img width="1110" height="772" alt="423202353-bc209296-e0f2-48f9-a7ae-65d084e4cb6c" src="https://github.com/user-attachments/assets/0970fbba-3bae-4483-b66d-6b183080c933" />
+---
+
+
+## Booking Flow
+
+RESERVED
+→ GUESTS_ADDED
+→ PAYMENTS_PENDING
+→ CONFIRMED
+
+Additional states:
+
+* CANCELLED
+* EXPIRED
+
+---
+
+## Major Modules
+
+### Authentication Module
+
+* User Signup
+* Login
+* JWT Token Generation
+* Role-based Authorization
 
 ### Hotel Management
-- **DELETE** `/admin/hotels/{hotelId}` - Delete a hotel
-- **GET** `/admin/hotels/{hotelId}` - Get hotel by ID
-- **GET** `/admin/hotels` - Get all admin hotels
-- **PATCH** `/admin/hotels/{hotelId}/activate` - Activate a hotel
-- **POST** `/admin/hotels` - Create a hotel
-- **PUT** `/admin/hotels/{hotelId}` - Update hotel details
 
-### Room Admin Management
-- **DELETE** `/admin/hotels/{hotelId}/rooms/{roomId}` - Delete a room
-- **GET** `/admin/hotels/{hotelId}/rooms/{roomId}` - Get room details
-- **GET** `/admin/hotels/{hotelId}/rooms` - Retrieve all rooms
-- **POST** `/admin/hotels/{hotelId}/rooms` - Create a room
-- **PUT** `/admin/hotels/{hotelId}/rooms/{roomId}` - Update a room
+* Create Hotel
+* Update Hotel
+* Delete Hotel
+* Activate Hotel
+* Fetch Hotels
 
-### User Authentication
-- **POST** `/auth/signup` - User signup
-- **POST** `/auth/refresh` - Refresh access token
-- **POST** `/auth/login` - User login
+### Room Management
 
-### User Profile
-- **DELETE** `/users/guests/{guestId}` - Remove a guest
-- **GET** `/users/guests` - Get my guests
-- **GET** `/users/profile` - Get my profile
-- **GET** `/users/myBookings` - Get my bookings
-- **PATCH** `/users/profile` - Update my profile
-- **POST** `/users/guests` - Add a guest
-- **PUT** `/users/guests/{guestId}` - Update a guest
+* Create Room
+* Update Room
+* Delete Room
 
-### Webhook
-- **POST** `/webhook/payment` - Capture payments
+### Inventory Management
 
-###Schema
-![Image](https://github.com/user-attachments/assets/bc209296-e0f2-48f9-a7ae-65d084e4cb6c)
+* Room availability tracking
+* Inventory initialization
+* Inventory updates
 
+### Dynamic Pricing Engine
+
+Price is calculated based on:
+
+* Base Price
+* Room Availability
+* Surge Factor
+
+### Booking Management
+
+* Initialize Booking
+* Add Guests
+* Payment Flow
+* Booking Status Tracking
+* Booking Cancellation
+
+### Reporting
+
+* Booking Count
+* Total Revenue
+* Average Revenue
+
+---
+
+## API Documentation
+
+Swagger UI available at:
+
+http://localhost:8080/swagger-ui/index.html
+
+---
+
+## How to Run
+
+### Clone Repository
+
+```bash
+git clone https://github.com/adesh-ghodekar/Airbnb-style-booking-backend-api.git
+```
+
+### Configure Database
+
+Update application.properties with PostgreSQL credentials.
+
+### Run Application
+
+```bash
+./mvnw spring-boot:run
+```
+
+OR
+
+```bash
+mvn spring-boot:run
+```
+
+---
+
+## Docker Run
+
+Build image:
+
+```bash
+docker build -t airbnb-backend .
+```
+
+Run container:
+
+```bash
+docker run -p 8080:8080 airbnb-backend
+```
+
+---
+
+## Future Improvements
+
+* Razorpay Integration
+* Reviews & Ratings
+* Coupons & Discounts
+* Email Notifications
+* Redis Caching
+* CI/CD Pipeline
+* AWS Deployment
+
+---
+
+## Author
+
+Adesh Ghodekar
